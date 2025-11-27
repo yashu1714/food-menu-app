@@ -6,8 +6,7 @@ import RecipeModal from "./RecipeModal";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { toast } from "react-toastify";   // ⬅️ VERY IMPORTANT
-
+import { toast } from "react-toastify";  
 const RecipeSearch = () => {
   const [query, setQuery] = useState("");
   const [recipes, setRecipes] = useState([]);
@@ -23,7 +22,6 @@ const RecipeSearch = () => {
 
   const { user, logout } = useAuth();
 
-  // ------------------- THEME LOAD -------------------
   useEffect(() => {
     const saved = localStorage.getItem("theme") || "light";
     document.body.classList.add(saved);
@@ -39,7 +37,6 @@ const RecipeSearch = () => {
     localStorage.setItem("theme", newTheme);
   };
 
-  // ------------------- FAVORITES -------------------
   const [favorites, setFavorites] = useState(() => {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
@@ -88,7 +85,6 @@ const RecipeSearch = () => {
     loadCloud();
   }, [user]);
 
-  // ------------------- FETCH FUNCTIONS -------------------
   const fetchMeals = async (url) => {
     setLoading(true);
     try {
@@ -164,15 +160,12 @@ const RecipeSearch = () => {
       .then((d) => setIngredients(d.meals || []));
   }, []);
 
-  // ------------------- MODAL -------------------
   const [selectedMeal, setSelectedMeal] = useState(null);
   const openModal = (meal) => setSelectedMeal(meal);
   const closeModal = () => setSelectedMeal(null);
 
   return (
     <div className="app-container">
-
-      {/* ---------- NAVBAR ---------- */}
       <div style={{ marginBottom: "10px" }}>
         <Link to="/" className="nav-btn">Home</Link>
         <Link to="/favorites" className="nav-btn">Favorites ⭐</Link>
@@ -188,13 +181,11 @@ const RecipeSearch = () => {
           <Link to="/login" className="nav-btn">Login</Link>
         )}
 
-        {/* Theme Toggle */}
         <button className="nav-btn" onClick={toggleTheme}>🌓 Theme</button>
       </div>
 
       <h1 className="title">Food Menu App 🍽️</h1>
 
-      {/* ---------- FILTERS ---------- */}
       <FilterBar
         categories={categories}
         areas={areas}
@@ -204,7 +195,6 @@ const RecipeSearch = () => {
         setIngredient={setIngredient}
       />
 
-      {/* ---------- SEARCH ---------- */}
       <div className="search-container">
         <input
           type="text"
@@ -219,8 +209,6 @@ const RecipeSearch = () => {
       </div>
 
       {loading && <p className="loading-text">Loading recipes...</p>}
-
-      {/* ---------- RECIPES ---------- */}
       <h2 className="title">Recipes</h2>
       <div className="recipe-list">
         {recipes.map((meal) => (
@@ -235,7 +223,6 @@ const RecipeSearch = () => {
         ))}
       </div>
 
-      {/* ---------- FAVORITES ---------- */}
       <h2 className="title" style={{ marginTop: "30px" }}>⭐ Favorite Recipes</h2>
       <div className="recipe-list">
         {favorites.length === 0 && <p className="no-data">No favorites yet!</p>}
