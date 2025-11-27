@@ -1,16 +1,78 @@
-# React + Vite
+# Food Menu App with User Authentication (React + Firebase)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive Food Recipe application built using "React.js", "Firebase Authentication", "Firestore", and "TheMealDB API".  
+The app allows users to explore recipes, apply filters, search meals, view detailed instructions, and securely save favorites with user-specific cloud storage.
 
-Currently, two official plugins are available:
+##  Live Demo  
+ **Live App:** *(Add your Netlify/Vercel link here)*  
+ **GitHub Repository:** https://github.com/yashu1714/food-menu-app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Features
 
-## React Compiler
+###  Authentication  
+- Email & Password Login  
+- Google Sign-In (OAuth)  
+- Reset Password via Email  
+- Protected Routes (Favorites page locked for guests)  
+- Automatic session handling with Firebase  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+###  Recipe Features  
+- Search any recipe (ex: Pizza, Chicken, Biryani)  
+- Filter by Category, Area, or Ingredients  
+- Detailed modal with Instructions + Ingredients  
+- Add / Remove Favorites  
+- Favorites stored in "Firestore"  
+- Offline sync using "LocalStorage"  
 
-## Expanding the ESLint configuration
+###  UI / UX  
+- Modern and clean UI  
+- Responsive for desktop, tablet, and mobile  
+- Dark / Light mode toggle  
+- Toast notifications  
+- Heart animation for favorites  
+- Smooth transitions & shadows  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Screenshots  
+
+###  Login Page  
+![Login Page](./screenshots/login.png)
+
+### 🍽️ Home Page  
+![Home Page](./screenshots/home.png)
+
+### ❤️ Favorites Page  
+![Favorites Page](./screenshots/favorites.png)
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+- React.js  
+- JavaScript (ES6+)  
+- HTML5  
+- CSS3  
+- React Router  
+- React Toastify  
+
+### **Backend / Cloud**
+- Firebase Authentication  
+- Firebase Firestore  
+- Firebase Hosting (optional)  
+
+### **API**
+- TheMealDB REST API  
+
+### **Tools**
+- Git & GitHub  
+- VS Code  
+- Vite  
+
+---
+
+## 📦 Installation & Setup
+
+### 1️⃣ Clone the repository  
+```bash
+git clone https://github.com/yashu1714/food-menu-app.git
+cd food-menu-app
