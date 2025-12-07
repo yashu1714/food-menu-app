@@ -7,7 +7,7 @@ The app allows users to explore recipes, apply filters, search meals, view detai
 ---
 
 ##  Live Demo  
-**GitHub Repository:** https://github.com/yashu1714/food-menu-app
+**GitHub Repository:** https://food-menu-application.netlify.app/
 
 ---
 
