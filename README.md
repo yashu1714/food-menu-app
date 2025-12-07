@@ -1,26 +1,26 @@
 
-# 🍽️ Food Menu App with User Authentication (React + Firebase)
+#  Food Menu App with User Authentication (React + Firebase)
 
 A modern and responsive Food Recipe application built using **React.js**, **Firebase Authentication**, **Firestore**, and **TheMealDB API**.  
 The app allows users to explore recipes, apply filters, search meals, view detailed instructions, and securely save favorites with user-specific cloud storage.
 
 ---
 
-## 🚀 Live Demo  
+##  Live Demo  
 **GitHub Repository:** https://github.com/yashu1714/food-menu-app
 
 ---
 
-## 🎯 Features
+##  Features
 
-### 🔐 Authentication  
+###  Authentication  
 - Email & Password Login  
 - Google Sign-In (OAuth)  
 - Reset Password via Email  
 - Protected Routes (Favorites page locked for guests)  
 - Automatic session handling with Firebase  
 
-### 🍽️ Recipe Features  
+###  Recipe Features  
 - Search any recipe (e.g., Pizza, Chicken, Biryani)  
 - Filter by Category, Area, or Ingredients  
 - Detailed modal with instructions + ingredients  
@@ -28,7 +28,7 @@ The app allows users to explore recipes, apply filters, search meals, view detai
 - Favorites stored in **Firestore**  
 - Offline sync using **LocalStorage**  
 
-### 🎨 UI / UX  
+###  UI / UX  
 - Modern and clean UI  
 - Fully responsive  
 - Dark / Light mode toggle  
@@ -38,20 +38,20 @@ The app allows users to explore recipes, apply filters, search meals, view detai
 
 ---
 
-## 🖼️ Screenshots
+##  Screenshots
 
-### 🔐 Login Page  
+###  Login Page  
 ![Login Page](https://github.com/yashu1714/food-menu-app/raw/main/Login%20page.png)
 
-### 🍽️ Home Page  
+###  Home Page  
 ![Home Page](https://github.com/yashu1714/food-menu-app/raw/main/Home%20page.png)
 
-### ❤️ Favorites Page  
+###  Favorites Page  
 ![Favorites Page](https://github.com/yashu1714/food-menu-app/raw/main/Favorite%20page.png)
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### **Frontend**
 - React.js  
@@ -75,30 +75,30 @@ The app allows users to explore recipes, apply filters, search meals, view detai
 
 ---
 
-## 📦 Installation & Setup
+##  Installation & Setup
 
-### 1️⃣ Clone the repository  
+### 1️ Clone the repository  
 ```bash
 git clone https://github.com/yashu1714/food-menu-app.git
 cd food-menu-app
 ```
 
-### 2️⃣ Install dependencies  
+### 2️ Install dependencies  
 ```bash
 npm install
 ```
 
-### 3️⃣ Setup Firebase  
+### 3️ Setup Firebase  
 Update `src/firebase.js` with your Firebase config.
 
-### 4️⃣ Start the development server  
+### 4️ Start the development server  
 ```bash
 npm run dev
 ```
 
 ---
 
-## 🔐 Firestore Security Rules  
+##  Firestore Security Rules  
 ```js
 rules_version = '2';
 service cloud.firestore {
@@ -113,7 +113,7 @@ service cloud.firestore {
 
 ---
 
-## 📁 Folder Structure  
+##  Folder Structure  
 ```
 food-menu-app/
  ├── public/
@@ -131,7 +131,7 @@ food-menu-app/
 
 ---
 
-## 👨‍💻 Author  
+##  Author  
 **N Yaswanth**  
 Frontend Developer  
 
