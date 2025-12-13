@@ -10,7 +10,7 @@ const CreateAccount = () => {
   const [password, setPassword] = useState("");
 
   const handleSignup = async () => {
-    if (!email || !password) return alert("Please enter email & password");
+    if (!email || !password) return toast.error("Please enter email & password");
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
