@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      toast.success("Please enter both email and password");
+      toast.error("Please enter both email and password");
       return;
     }
 
