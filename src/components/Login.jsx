@@ -10,10 +10,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // 🔥 Email Login
   const handleLogin = async () => {
     if (!email || !password) {
-      alert("Please enter both email and password");
+      toast.success("Please enter both email and password");
       return;
     }
 
@@ -22,11 +21,9 @@ const Login = () => {
     toast.success("Login successful!");
       navigate("/");
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Login failed!");
     }
   };
-
-  // 🔥 Google Sign-In
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
@@ -71,18 +68,14 @@ const Login = () => {
   />
   Continue with Google
 </button>
-
-
       {/* Create Account */}
       <button onClick={() => navigate("/create")}>
         Need an account? Create one
       </button>
-
       {/* Forgot Password */}
       <button onClick={() => navigate("/reset")}>
         Forgot Password?
       </button>
-
       {/* Back Home */}
       <button onClick={() => navigate("/")}>← Back to Home</button>
     </div>
