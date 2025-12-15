@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logout = () => {
-    // 🔥 Clear favorites when user logs out
+
     localStorage.removeItem("favorites");
     return signOut(auth);
   };
