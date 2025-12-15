@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
 import FilterBar from "./FilterBar";
 import RecipeModal from "./RecipeModal";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { toast } from "react-toastify";  
+import { toast } from "react-toastify";
+
 const RecipeSearch = () => {
+  const { user } = useAuth();
+
   const [query, setQuery] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,31 +22,12 @@ const RecipeSearch = () => {
   const [area, setArea] = useState("");
   const [ingredient, setIngredient] = useState("");
 
-  const { user, logout } = useAuth();
-
-  useEffect(() => {
-    const saved = localStorage.getItem("theme") || "light";
-    document.body.classList.add(saved);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = document.body.classList.contains("dark")
-      ? "light"
-      : "dark";
-
-    document.body.classList.remove("dark", "light");
-    document.body.classList.add(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-
   const [favorites, setFavorites] = useState(() => {
     return JSON.parse(localStorage.getItem("favorites")) || [];
   });
-     useEffect(() => {
-  if (!user) {
-    setFavorites([]);
-  }
-}, [user]);
+
+  const [selectedMeal, setSelectedMeal] = useState(null);
+
   const saveLocal = (fav) => {
     setFavorites(fav);
     localStorage.setItem("favorites", JSON.stringify(fav));
@@ -62,25 +45,32 @@ const RecipeSearch = () => {
   };
 
   const toggleFavorite = async (meal) => {
-  if (!user) {
-   toast.warning("Please login to save favorites ❤️");
-    return;
-  }
+    if (!user) {
+      toast.warning("Please login to save favorites ❤️");
+      return;
+    }
 
-  const exists = favorites.some((f) => f.idMeal === meal.idMeal);
-  const updated = exists
-    ? favorites.filter((f) => f.idMeal !== meal.idMeal)
-    : [...favorites, meal];
+    const exists = favorites.some((f) => f.idMeal === meal.idMeal);
+    const updated = exists
+      ? favorites.filter((f) => f.idMeal !== meal.idMeal)
+      : [...favorites, meal];
 
-  await saveFavorites(updated);
-};
+    await saveFavorites(updated);
+  };
+
   const isFavorite = (id) => favorites.some((f) => f.idMeal === id);
+
   useEffect(() => {
     const loadCloud = async () => {
-      if (!user) return;
+      if (!user) {
+        saveLocal([]);
+        return;
+      }
       const ref = doc(db, "favorites", user.uid);
       const snap = await getDoc(ref);
-      if (snap.exists()) saveLocal(snap.data().meals);
+      if (snap.exists()) {
+        saveLocal(snap.data().meals);
+      }
     };
     loadCloud();
   }, [user]);
@@ -93,26 +83,29 @@ const RecipeSearch = () => {
       let meals = data.meals || [];
 
       if (meals.length && !meals[0].strInstructions) {
-        const full = [];
+        const fullMeals = [];
         for (const m of meals) {
           const r = await fetch(
             `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${m.idMeal}`
           );
           const d = await r.json();
-          full.push(d.meals[0]);
+          fullMeals.push(d.meals[0]);
         }
-        meals = full;
+        meals = fullMeals;
       }
+
       setRecipes(meals);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const fetchSearch = () => {
-    fetchMeals(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+    fetchMeals(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
+    );
     setCategory("");
     setArea("");
     setIngredient("");
@@ -122,7 +115,9 @@ const RecipeSearch = () => {
     setLoading(true);
     const arr = [];
     for (let i = 0; i < 6; i++) {
-      const r = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+      const r = await fetch(
+        "https://www.themealdb.com/api/json/v1/1/random.php"
+      );
       const d = await r.json();
       arr.push(d.meals[0]);
     }
@@ -130,60 +125,53 @@ const RecipeSearch = () => {
     setLoading(false);
   };
 
-  useEffect(() => { fetchRandom(); }, []);
-
-  // Filters
   useEffect(() => {
-    if (category)
-      fetchMeals(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+    fetchRandom();
+  }, []);
+
+  useEffect(() => {
+    if (category) {
+      fetchMeals(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+    }
   }, [category]);
 
   useEffect(() => {
-    if (area)
-      fetchMeals(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`);
+    if (area) {
+      fetchMeals(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
+      );
+    }
   }, [area]);
 
   useEffect(() => {
-    if (ingredient)
-      fetchMeals(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+    if (ingredient) {
+      fetchMeals(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
+      );
+    }
   }, [ingredient]);
 
   useEffect(() => {
     fetch("https://www.themealdb.com/api/json/v1/1/list.php?c=list")
       .then((r) => r.json())
       .then((d) => setCategories(d.meals || []));
+
     fetch("https://www.themealdb.com/api/json/v1/1/list.php?a=list")
       .then((r) => r.json())
       .then((d) => setAreas(d.meals || []));
+
     fetch("https://www.themealdb.com/api/json/v1/1/list.php?i=list")
       .then((r) => r.json())
       .then((d) => setIngredients(d.meals || []));
   }, []);
 
-  const [selectedMeal, setSelectedMeal] = useState(null);
   const openModal = (meal) => setSelectedMeal(meal);
   const closeModal = () => setSelectedMeal(null);
 
   return (
-    <div className="app-container">
-      <div style={{ marginBottom: "10px" }}>
-        <Link to="/" className="nav-btn">Home</Link>
-        <Link to="/favorites" className="nav-btn">Favorites ⭐</Link>
-
-        {user ? (
-          <>
-            <span style={{ margin: "0 10px" }}>{user.email}</span>
-            <button className="nav-btn" style={{ background: "#d9534f" }} onClick={logout}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <Link to="/login" className="nav-btn">Login</Link>
-        )}
-
-        <button className="nav-btn" onClick={toggleTheme}>🌓 Theme</button>
-      </div>
-
+    <>
       <h1 className="title">Food Menu App 🍽️</h1>
 
       <FilterBar
@@ -198,7 +186,7 @@ const RecipeSearch = () => {
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search meals like Briyani, Pizza, Chicken..."
+          placeholder="Search meals like Biryani, Pizza..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="search-input"
@@ -209,7 +197,7 @@ const RecipeSearch = () => {
       </div>
 
       {loading && <p className="loading-text">Loading recipes...</p>}
-      <h2 className="title">Recipes</h2>
+
       <div className="recipe-list">
         {recipes.map((meal) => (
           <RecipeCard
@@ -218,46 +206,17 @@ const RecipeSearch = () => {
             openModal={openModal}
             toggleFavorite={toggleFavorite}
             isFavorite={isFavorite(meal.idMeal)}
-             user={user}
+            user={user}
           />
         ))}
       </div>
 
-      <h2 className="title" style={{ marginTop: "30px" }}>⭐ Favorite Recipes</h2>
-      <div className="recipe-list">
-        {favorites.length === 0 && <p className="no-data">No favorites yet!</p>}
-        {favorites.map((meal) => (
-          <RecipeCard
-            key={meal.idMeal}
-            recipe={meal}
-            openModal={openModal}
-            toggleFavorite={toggleFavorite}
-            isFavorite={true}
-          />
-        ))}
-      </div>
-
-      {selectedMeal && <RecipeModal meal={selectedMeal} closeModal={closeModal} />}
-    </div>
+      {selectedMeal && (
+        <RecipeModal meal={selectedMeal} closeModal={closeModal} />
+      )}
+    </>
   );
 };
 
 export default RecipeSearch;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
