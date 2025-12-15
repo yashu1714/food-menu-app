@@ -21,9 +21,10 @@ const Login = () => {
     toast.success("Login successful!");
       navigate("/");
     } catch (error) {
-      toast.error("Login failed!");
+      toast.error("Login failed");
     }
   };
+
   const handleGoogleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
@@ -37,24 +38,18 @@ const Login = () => {
   return (
     <div className="auth-container">
       <h2>Login</h2>
-
-      {/* Email */}
       <input
         type="email"
         placeholder="Enter Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-
-      {/* Password */}
       <input
         type="password"
         placeholder="Enter Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-      {/* Login Button */}
       <button onClick={handleLogin}>Login</button>
 
    <button
@@ -68,18 +63,19 @@ const Login = () => {
   />
   Continue with Google
 </button>
-      {/* Create Account */}
+
       <button onClick={() => navigate("/create")}>
         Need an account? Create one
       </button>
-      {/* Forgot Password */}
+
       <button onClick={() => navigate("/reset")}>
         Forgot Password?
       </button>
-      {/* Back Home */}
+    
       <button onClick={() => navigate("/")}>← Back to Home</button>
     </div>
   );
 };
 
 export default Login;
+
