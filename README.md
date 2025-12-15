@@ -44,7 +44,7 @@ The app allows users to explore recipes, apply filters, search meals, view detai
 ![Login Page](https://github.com/yashu1714/food-menu-app/raw/main/Login%20page.png)
 
 ###  Home Page  
-![Home Page](https://github.com/yashu1714/food-menu-app/raw/main/Home%20page.png)
+![Home Page](https://github.com/yashu1714/food-menu-app/blob/612a59a646b3f8955d01304be993f93846d1275a/Home%20Page.png)
 
 ###  Favorites Page  
 ![Favorites Page](https://github.com/yashu1714/food-menu-app/raw/main/Favorite%20page.png)
