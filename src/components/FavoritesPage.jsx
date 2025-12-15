@@ -1,51 +1,87 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import RecipeCard from "./RecipeCard";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import RecipeCard from "./RecipeCard";
+import { toast } from "react-toastify";
 
 const FavoritesPage = () => {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (!user) {
+        toast.warning("Please login to view favorites ❤️");
+        setFavorites([]);
+        setLoading(false);
+        return;
+      }
 
-  // 🔥 Protect the page
-  if (!user) {
+      try {
+        const ref = doc(db, "favorites", user.uid);
+        const snap = await getDoc(ref);
+
+        if (snap.exists()) {
+          setFavorites(snap.data().meals || []);
+        } else {
+          setFavorites([]);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load favorites");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFavorites();
+  }, [user]);
+  const removeFavorite = async (meal) => {
+    const updated = favorites.filter(
+      (item) => item.idMeal !== meal.idMeal
+    );
+
+    setFavorites(updated);
+
+    if (user) {
+      const ref = doc(db, "favorites", user.uid);
+      await import("firebase/firestore").then(({ setDoc }) =>
+        setDoc(ref, { meals: updated })
+      );
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(updated));
+    toast.info("Removed from favorites 💔");
+  };
+
+  if (loading) {
+    return <p style={{ textAlign: "center" }}>Loading favorites...</p>;
+  }
+
+  if (!favorites.length) {
     return (
-      <div className="auth-container">
-        <h2>Please login to view your favorites</h2>
-        <button onClick={() => navigate("/login")}>Go to Login</button>
+      <div className="app-container">
+        <h1 className="title">⭐ Your Favorite Meals</h1>
+        <p style={{ textAlign: "center", marginTop: "30px" }}>
+          You haven’t added any favorites yet ❤️
+        </p>
       </div>
     );
   }
 
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
   return (
     <div className="app-container">
-      <div style={{ marginBottom: "10px" }}>
-        <Link to="/" className="nav-btn">Home</Link>
-        <Link to="/favorites" className="nav-btn">Favorites ⭐</Link>
-        <span style={{ margin: "0 10px" }}>{user.email}</span>
-
-        <button
-          className="nav-btn"
-          style={{ background: "#d9534f" }}
-          onClick={logout}
-        >
-          Logout
-        </button>
-      </div>
-
       <h1 className="title">⭐ Your Favorite Meals</h1>
 
       <div className="recipe-list">
-        {favorites.length === 0 && <p className="no-data">No favorites yet!</p>}
         {favorites.map((meal) => (
           <RecipeCard
             key={meal.idMeal}
             recipe={meal}
-            openModal={() => {}}
-            toggleFavorite={() => {}}
-            isFavorite
+            isFavorite={true}
+            toggleFavorite={() => removeFavorite(meal)}
+            user={user}
           />
         ))}
       </div>
