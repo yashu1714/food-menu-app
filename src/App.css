@@ -1,295 +1,334 @@
-/* =========================================================
-   🌙 LIGHT & DARK MODE
-   ========================================================= */
 
-body.light {
-  background: #fae7cf;
-  color: #222;
-}
-
-body.dark {
-  background: #1c1c1c;
-  color: #f5f5f5;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
   transition: background 0.3s ease, color 0.3s ease;
-  font-family: Arial, sans-serif;
-  margin: 0;
 }
 
+/* LIGHT MODE */
+body[data-theme="light"] {
+  background: #fff3e3;
+  color: #000;
+}
 
-/* =========================================================
-   🌐 GLOBAL APP CONTAINER
-   ========================================================= */
+/* DARK MODE */
+body[data-theme="dark"] {
+  background: #121212;
+  color: #ffffff;
+}
 
 .app-container {
-  text-align: center;
   min-height: 100vh;
   padding: 20px;
 }
 
-
-/* =========================================================
-   🔝 NAVIGATION BAR
-   ========================================================= */
-
-.nav-btn {
-  margin: 0 8px;
-  font-size: 17px;
-  background: #0077ff;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 8px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.nav-btn:hover {
-  background: #005bcc;
-  transform: scale(1.05);
-  box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
-}
-
-/* Dark Mode nav */
-body.dark .nav-btn {
-  background: #444 !important;
-}
-body.dark .nav-btn:hover {
-  background: #666 !important;
-}
-
-
-/* =========================================================
-   🏷 TITLES
-   ========================================================= */
-
-.title {
-  font-size: 32px;
-  font-weight: bold;
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
   margin-bottom: 15px;
 }
 
+.nav-btn {
+  background: #0a5ad9;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
 
-/* =========================================================
-   🔍 SEARCH + FILTER
-   ========================================================= */
+.nav-btn:hover {
+  background: #0848b3;
+  transform: translateY(-1px);
+}
 
-.search-container,
+/* =========================
+   PROFILE DROPDOWN
+========================= */
+
+.profile-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #ffffff;
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  min-width: 230px;
+  z-index: 1000;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.profile-dropdown.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.profile-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.profile-email {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+/* Dropdown links */
+.profile-dropdown a,
+.profile-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  background: #f5f5f5;
+}
+
+/* DARK MODE DROPDOWN */
+body[data-theme="dark"] .profile-dropdown {
+  background: #1f1f1f;
+}
+
+body[data-theme="dark"] .profile-dropdown a,
+body[data-theme="dark"] .profile-dropdown button,
+body[data-theme="dark"] .profile-email {
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .profile-dropdown a:hover,
+body[data-theme="dark"] .profile-dropdown button:hover {
+  background: #2a2a2a;
+}
+
+
+.title {
+  text-align: center;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
 .filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.filter-bar select {
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  outline: none;
+}
+
+/* DARK MODE INPUTS */
+body[data-theme="dark"] select,
+body[data-theme="dark"] input {
+  background: #1e1e1e;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+
+.search-container {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
+  margin-bottom: 25px;
 }
 
 .search-input {
-  width: 280px;
-  padding: 10px;
+  width: 320px;
+  padding: 12px;
+  border-radius: 10px;
   border: 2px solid #555;
-  border-radius: 8px;
+  font-size: 15px;
 }
 
 .search-button {
-  padding: 10px 19px;
-  background: #ff6b00;
-  border-radius: 8px;
+  padding: 12px 20px;
+  background: #ff7300;
+  border-radius: 10px;
   border: none;
   color: white;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.25s ease;
 }
 
 .search-button:hover {
-  transform: scale(1.05);
-  background: #d95b00;
+  background: #e66500;
 }
 
-.filter-bar select {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 8px;
-}
-
-
-/* =========================================================
-   🧊 RECIPE GRID
-   ========================================================= */
 
 .recipe-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
 }
 
-
-/* =========================================================
-   🍱 RECIPE CARD + ANIMATION
-   ========================================================= */
-
 .recipe-card {
-  width: 260px;
   background: white;
-  padding: 12px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #bbb;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .recipe-card:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0px 8px 18px rgba(0,0,0,0.25);
+  transform: translateY(-6px);
 }
 
-/* Dark mode card */
-body.dark .recipe-card {
-  background: #2b2b2b;
-  box-shadow: 0 0 10px #000;
+.recipe-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 14px;
 }
 
-
-/* =========================================================
-   ❤️ HEART FAVORITE BUTTON
-   ========================================================= */
-
-.favorite-heart {
-  font-size: 26px;
-  margin-left: 10px;
-  cursor: pointer;
-  display: inline-flex;
+.recipe-title {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s ease, color 0.2s ease;
-  color: #777;
+  font-size: 17px;
+  margin-top: 10px;
 }
 
-.favorite-heart.active {
-  color: red;
+.favorite-btn {
+  font-size: 22px;
+  cursor: pointer;
 }
 
-/* Bounce animation */
-@keyframes heartBounce {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.4); }
-  60% { transform: scale(0.9); }
-  80% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+/* DARK MODE CARDS */
+body[data-theme="dark"] .recipe-card {
+  background: #1e1e1e;
+  box-shadow: none;
 }
-
-.heart-animate {
-  animation: heartBounce 0.4s ease;
-}
-
-
-/* =========================================================
-   🪟 MODAL (Recipe Details)
-   ========================================================= */
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 }
 
 .modal-container {
   background: white;
   padding: 22px;
-  border-radius: 12px;
-  width: 75%;
+  border-radius: 18px;
+  width: 90%;
   max-width: 650px;
   max-height: 85vh;
   overflow-y: auto;
   position: relative;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  0% { transform: scale(0.85); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.modal-img {
-  width: 100%;
-  max-width: 380px;
-  max-height: 220px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin: auto;
-  display: block;
 }
 
 .modal-close {
   position: absolute;
   top: 10px;
   right: 16px;
-  font-size: 32px;
+  font-size: 28px;
   cursor: pointer;
 }
 
-/* Dark Mode modal */
-body.dark .modal-container {
-  background: #2b2b2b;
-  color: white;
+.modal-img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 14px;
 }
 
-
-/* =========================================================
-   🔐 AUTH PAGES (Login / Signup)
-   ========================================================= */
+/* DARK MODE MODAL */
+body[data-theme="dark"] .modal-container {
+  background: #1e1e1e;
+}
 
 .auth-container {
   max-width: 380px;
   margin: 60px auto;
   background: white;
-  padding: 28px;
-  border-radius: 14px;
-  box-shadow: 0px 4px 16px rgba(0,0,0,0.18);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
   text-align: center;
-  transition: background 0.25s ease;
-}
-
-body.dark .auth-container {
-  background: #2b2b2b;
-  color: #fff;
 }
 
 .auth-container h2 {
   margin-bottom: 20px;
   font-size: 26px;
-  font-weight: 700;
 }
 
 .auth-container input {
   width: 100%;
   padding: 13px;
-  margin-bottom: 15px;
-  font-size: 16px;
-  border: 2px solid #c4c4c4;
-  border-radius: 8px;
-  transition: 0.25s;
-}
-
-.auth-container input:focus {
-  border-color: #ff7300;
-  outline: none;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  font-size: 15px;
 }
 
 .auth-container button {
   width: 100%;
   padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 8px 0;
-  border-radius: 8px;
-  cursor: pointer;
+  margin-top: 8px;
+  border-radius: 10px;
   border: none;
-  transition: 0.25s;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .auth-container button:nth-of-type(1) {
@@ -298,7 +337,7 @@ body.dark .auth-container {
 }
 
 .auth-container button:nth-of-type(2) {
-  background: #0077ff;
+  background: #0a5ad9;
   color: white;
 }
 
@@ -307,161 +346,13 @@ body.dark .auth-container {
   color: white;
 }
 
-.auth-container button:hover {
-  transform: scale(1.03);
-}
-
-
-/* =========================================================
-   🖱 GOOGLE BUTTON
-   ========================================================= */
-
-.google-btn {
-  background: white;
-  color: #444;
-  border: 2px solid #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.25s ease;
-}
-
-.google-btn:hover {
-  background: #e7e7e7;
-  transform: scale(1.02);
-}
-
-/* Dark Mode */
-body.dark .google-btn {
-  background: #444;
-  color: white;
-  border-color: #666;
-}
-
-/* =========================================================
-   📱 MOBILE RESPONSIVE DESIGN (Below 768px)
-   ========================================================= */
-
-@media (max-width: 768px) {
-  
-  /* NAV BAR */
-  .nav-btn {
-    font-size: 15px;
-    padding: 6px 12px;
-    margin: 6px 4px;
-  }
-
-  .title {
-    font-size: 26px;
-  }
-
-  /* SEARCH CONTAINER */
-  .search-container {
-    flex-direction: column;
-    gap: 8px;
-  }
-
+@media (max-width: 600px) {
   .search-input {
-    width: 90%;
-    font-size: 15px;
+    width: 100%;
   }
 
-  .search-button {
-    width: 90%;
-  }
-
-  /* FILTER BAR */
-  .filter-bar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .filter-bar select {
-    width: 90%;
-    font-size: 15px;
-    padding: 10px;
-  }
-
-  /* RECIPE LIST */
-  .recipe-list {
-    gap: 14px;
-  }
-
-  .recipe-card {
-    width: 90%;
-    max-width: 330px;
-  }
-
-  /* FAVORITE HEART */
-  .favorite-heart {
-    font-size: 22px;
-  }
-
-  /* MODAL RESPONSIVE */
-  .modal-container {
-    width: 90%;
-    padding: 16px;
-    max-height: 80vh;
-  }
-
-  .modal-img {
-    max-width: 95%;
-    max-height: 180px;
-  }
-
-  /* AUTH PAGES */
-  .auth-container {
-    width: 90%;
-    margin-top: 30px;
-    padding: 20px;
-  }
-
-  .auth-container input {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .auth-container button {
-    padding: 10px;
-    font-size: 15px;
-  }
-}
-
-/* =========================================================
-   📱 EXTRA SMALL DEVICES (Below 480px)
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-  .title {
-    font-size: 22px;
-  }
-
-  /* NAV BAR: stack vertically */
-  .nav-btn {
-    display: block;
-    width: 92%;
-    margin: 5px auto;
-  }
-
-  /* IMAGE RESPONSIVE */
-  .modal-img {
-    max-width: 100%;
-    max-height: 150px;
-  }
-
-  .recipe-card {
-    width: 95%;
-  }
-
-  /* HEART ICON */
-  .favorite-heart {
-    font-size: 20px;
+  .profile-dropdown {
+    right: -10px;
   }
 }
 
