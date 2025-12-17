@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import CreateAccount from "./pages/CreateAccount";
+import ResetPassword from "./pages/ResetPassword";
 import ProfileMenu from "./components/ProfileMenu";
 import RecipeSearch from "./components/RecipeSearch";
 import FavoritesPage from "./components/FavoritesPage";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create" element={<CreateAccount/>}/>
+           <Route path="/reset" element={<ResetPassword/>}/>
         </Routes>
           <ToastContainer position="top-right" autoClose={2000} theme="colored" />
       </div>
